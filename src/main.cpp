@@ -1,23 +1,24 @@
-#include "horos/topic_registry.hpp"
+#include "horos/node.hpp"
 #include "horos/message.hpp"
 
-int main(int argc, char* argv[]) {
+#include <memory>
 
-    auto registry = std::make_shared<horos::TopicRegistry>();
+int main() {
+    auto global_registry = std::make_shared<horos::TopicRegistry>();
 
-    registry->subscribe("chatter", [](std::shared_ptr<horos::IntMessage> msg) {
-        std::cout << "[Topic: chatter] Subscriber1 received: " << msg->data << std::endl;
+    auto talker_node = std::make_shared<horos::Node>("talker", global_registry);
+    auto listener_node = std::make_shared<horos::Node>("listener", global_registry);
+
+    listener_node->create_subscription("chatter", [](std::shared_ptr<horos::IntMessage> msg) {
+        std::cout << " -> [Listener Node] I heard: " << msg->data << std::endl;
     });
 
-    registry->subscribe("chatter", [](std::shared_ptr<horos::IntMessage> msg) {
-        std::cout << "[Topic: chatter] Subscriber2 received: " << msg->data << std::endl;
-    });
+    auto chatter_pub = talker_node->create_publisher("chatter");
 
     auto message = std::make_shared<horos::IntMessage>();
+    message->data = 100;
 
-    message->data = 42;
-
-    registry->publish("chatter", message);
+    chatter_pub->publish(message);
 
     return 0;
 }
