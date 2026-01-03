@@ -9,7 +9,7 @@ ROS2의 rclcpp API 뒤에서 일어나는 토픽 등록, 데이터 배분, 그�
 
 ### 📦 Data Layer
 
-IntMessage: 가장 기초적인 정수형 데이터(int data)를 담고 있는 구조체입니다.
+- `IntMessage`: 가장 기초적인 정수형 데이터(int data)를 담고 있는 구조체입니다.
 
 ### ⚙️ Middleware Layer
 
@@ -38,3 +38,31 @@ IntMessage: 가장 기초적인 정수형 데이터(int data)를 담고 있는 �
 - `Publisher`:
 
     - 특정 토픽으로 메시지를 전달하는 역할을 캡슐화합니다.
+
+## 3. How To Run
+
+### Build
+
+```Bash
+mkdir build && cd build
+cmake ..
+make
+```
+
+### Run
+
+```Bash
+./horos_demo
+```
+
+### Example
+
+```Bash
+[Node : talker] has been initialized.
+[Node : listener] has been initialized.
+[Topic : chatter] Publisher sent: 100
+[Main] Publisher call is finished immediately!
+ -> [Listener Node] Started Processing: 100
+ -> [Listener Node] Finished Processing: 100
+```
+

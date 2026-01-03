@@ -8,4 +8,8 @@ include_directories(include)
 
 add_executable(horos_demo src/main.cpp)
 
-target_compile_options(horos_demo PRIVATE -Wall -Wextra)
+if (MSVC)
+    target_compile_options(horos_demo PRIVATE /W4)
+else()
+    target_compile_options(horos_demo PRIVATE -Wall -Wextra)
+endif()
